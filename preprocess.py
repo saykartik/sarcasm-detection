@@ -7,7 +7,9 @@ from functools import partial
 
 PATHS = {
     'twitter': 'data/sarcasm_detection_shared_task_twitter_training.jsonl',
-    'reddit': 'data/sarcasm_detection_shared_task_reddit_training.jsonl'
+    'reddit': 'data/sarcasm_detection_shared_task_reddit_training.jsonl',
+    'twitter_test': 'data/twitter_test.jsonl',
+    'reddit_test': 'data/reddit_test.jsonl',
 }
 
 
@@ -76,7 +78,7 @@ def load_data(
             # in this Sentence pair classification task, our context is the second sentence.
             text_b = tokenization.convert_to_unicode(context_process(row['context'], context_extent))
             # Sarcasm Label
-            label = row['label']
+            label = row.get('label', 'NOT_SARCASM')
 
             # Convert every row into a BERT InputExample Object
             new_res.append(run_classifier.InputExample(guid, text_a, text_b, label))
