@@ -91,6 +91,8 @@ class SarcasmBertBasic:
 
         self.estimator = tf.estimator.Estimator(
             model_fn=model_fn,
+            model_dir=self.OUTPUT_DIR,
+            config=run_config,
             params={"batch_size": TRAIN_BATCH_SIZE})
 
 
