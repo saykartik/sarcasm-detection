@@ -15,11 +15,11 @@ import tensorflow_hub as hub
 #   uncased_L-12_H-768_A-12: uncased BERT base model
 #   uncased_L-24_H-1024_A-16: uncased BERT large model
 #   cased_L-12_H-768_A-12: cased BERT large model
-TRAIN_BATCH_SIZE = 32
-EVAL_BATCH_SIZE = 8
-PREDICT_BATCH_SIZE = 8
+TRAIN_BATCH_SIZE = 6  # 32
+EVAL_BATCH_SIZE = 6  # 8
+PREDICT_BATCH_SIZE = 6  # 8
 LEARNING_RATE = 2e-5
-MAX_SEQ_LENGTH = 128
+MAX_SEQ_LENGTH = 512  # 128
 # Warmup is a period of time where hte learning rate
 # is small and gradually increases--usually helps training.
 WARMUP_PROPORTION = 0.1
@@ -30,7 +30,7 @@ SAVE_SUMMARY_STEPS = 500
 cfg = {
     'model_ver': 'v1',
     'BERT_MODEL': 'uncased_L-12_H-768_A-12',
-    'NUM_TRAIN_EPOCHS': 10.0,
+    'NUM_TRAIN_EPOCHS': 1.7,
 }
 
 
@@ -125,7 +125,6 @@ class SarcasmBertBasic:
             "output_bias", [num_labels], initializer=tf.zeros_initializer())
 
         with tf.variable_scope("loss"):
-
             # Dropout helps prevent overfitting
             output_layer = tf.nn.dropout(output_layer, keep_prob=0.9)
 

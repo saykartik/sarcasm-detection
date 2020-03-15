@@ -35,17 +35,17 @@ preds = model.predict(test)
 On a twitter data set, described in the paper below, we are able to achieve the following results  
 [Sarcasm Analysis using Conversation Context](https://arxiv.org/abs/1808.07531)
 ```
-Accuracy:0.803
+Accuracy:0.833
 
 SARCASM
-Precision:0.835920177383592
-Recall:0.754
-F1 Score:0.7928496319663513
+Precision:0.8032786885245902
+Recall:0.882
+F1 Score:0.8408007626310773
     
 NOT SARCASM
-Precision:0.7759562841530054
-Recall:0.852
-F1 Score:0.8122020972354624
+Precision:0.8691796008869179
+Recall:0.784
+F1 Score:0.8243953732912724
 ```
 
 # References
