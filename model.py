@@ -54,35 +54,11 @@ class SarcasmBertBasic:
         num_train_steps = int(len(train_data) / TRAIN_BATCH_SIZE * params['NUM_TRAIN_EPOCHS'])
         num_warmup_steps = int(num_train_steps * WARMUP_PROPORTION)
 
-        # model_fn = run_classifier_with_tfhub.model_fn_builder(
-        #     num_labels=len(self.label_list),
-        #     learning_rate=LEARNING_RATE,
-        #     num_train_steps=num_train_steps,
-        #     num_warmup_steps=num_warmup_steps,
-        #     use_tpu=False,
-        #     bert_hub_module_handle=self.BERT_MODEL_HUB
-        # )
-        TPU_ADDRESS = 'grpc://10.114.88.226:8470'  # Arbitrary. We want a GPU
-        tpu_cluster_resolver = tf.contrib.cluster_resolver.TPUClusterResolver(TPU_ADDRESS)
-        NUM_TPU_CORES = 8
-        ITERATIONS_PER_LOOP = 1000
-
         run_config = tf.estimator.RunConfig(
             model_dir=self.OUTPUT_DIR,
             save_summary_steps=SAVE_SUMMARY_STEPS,
             save_checkpoints_steps=SAVE_CHECKPOINTS_STEPS)
 
-        # def get_run_config(output_dir):
-        #     return tf.contrib.tpu.RunConfig(
-        #         cluster=tpu_cluster_resolver,
-        #         model_dir=output_dir,
-        #         save_checkpoints_steps=SAVE_CHECKPOINTS_STEPS,
-        #         tpu_config=tf.contrib.tpu.TPUConfig(
-        #             iterations_per_loop=ITERATIONS_PER_LOOP,
-        #             num_shards=NUM_TPU_CORES,
-        #             per_host_input_for_training=tf.contrib.tpu.InputPipelineConfig.PER_HOST_V2))
-
-        # This should revert to GPU when TPU is set to false per bert doc.
         model_fn = self.model_fn_builder(
             num_labels=len(self.label_list),
             learning_rate=LEARNING_RATE,
@@ -94,16 +70,6 @@ class SarcasmBertBasic:
             model_dir=self.OUTPUT_DIR,
             config=run_config,
             params={"batch_size": TRAIN_BATCH_SIZE})
-
-
-        # self.estimator = tf.contrib.tpu.TPUEstimator(
-        #     use_tpu=False,
-        #     model_fn=model_fn,
-        #     config=get_run_config(self.OUTPUT_DIR),
-        #     train_batch_size=TRAIN_BATCH_SIZE,
-        #     eval_batch_size=EVAL_BATCH_SIZE,
-        #     predict_batch_size=PREDICT_BATCH_SIZE,
-        # )
 
         train_features = run_classifier.convert_examples_to_features(
             train_data, self.label_list, MAX_SEQ_LENGTH, self.tokenizer)
@@ -209,7 +175,6 @@ class SarcasmBertBasic:
                     f1_score = tf.contrib.metrics.f1_score(
                         lab_ids,
                         pred_labels)
-
                     recall = tf.metrics.recall(
                         lab_ids,
                         pred_labels)
