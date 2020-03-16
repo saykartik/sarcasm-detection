@@ -31,8 +31,13 @@ model = SarcasmBertBasic(cfg)
 model.fit(train)
 preds = model.predict(test)
 ```
+Also take a look at 
+```
+run_model.ipynb
+```  
+
 # Results
-On a twitter data set, described in the paper below, we are able to achieve the following results  
+On a twitter data set described in the paper below, we are able to achieve the following results  
 [Sarcasm Analysis using Conversation Context](https://arxiv.org/abs/1808.07531)
 ```
 Accuracy:0.833
@@ -47,6 +52,8 @@ Precision:0.8691796008869179
 Recall:0.784
 F1 Score:0.8243953732912724
 ```
+## Notes on Training
+* 
 
 # References
 * Paper - [Sarcasm Analysis using Conversation Context](https://arxiv.org/abs/1808.07531)
