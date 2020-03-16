@@ -1,7 +1,9 @@
 import sys
 
 # Find a way around this ugliness.
-sys.path += ['C:/Users/sayka/Desktop/Course/Projects/sarcasm-detection/bert_repo']
+if 'bert_repo' not in sys.path:
+    sys.path += ['bert_repo']
+
 
 import datetime
 import os
