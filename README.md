@@ -3,12 +3,10 @@ This repository implements a sarcasm detection model by utilizing a
 sentence pair classification BERT architecture.
 
 # Setup
-You must
-* Clone the bert git repo not pip install it (does not contain latest updates)
-* preferably conda install tensorflow-gpu 1.15.0 (or a stable setup process you know works)
-* install tensorflow_hub=0.7.0  
-
-You could try ```conda env create -f environment.yml```  
+Since this uses libraries which are all not pip installable (especially bert), we need to ensure a few things
+* Have a tensorflow 1.15 environment - This will not work in 2.0
+* Before cloning this repo you can run ```setup.sh``` in the root dir where this repo will sit
+* If you have already cloned this repo, you must run setup.sh with root dir as sarcasm-detection
 
 # Data Shape and Form
 Sarcasm Data from twitter and reddit have the following attributes

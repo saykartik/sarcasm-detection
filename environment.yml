@@ -1,9 +1,0 @@
-name: sarcasmbert
-dependencies:
-  - python=3.6
-  - tensorflow-gpu=1.15.0
-  - pandas
-  - scikit-learn
-  - tensorflow_hub=0.7.0
-  - pip:
-      -git+https://github.com/google-research/bert bert_repo
