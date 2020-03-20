@@ -5,7 +5,10 @@ sentence pair classification BERT architecture.
 # Setup
 Since this uses libraries which are all not pip installable (especially bert), we need to ensure a few things
 * Have a tensorflow 1.15 environment - This will not work in 2.0
-* Before cloning this repo you can run ```setup.sh``` in the root dir where this repo will sit
+* Before cloning this repo you can run ```setup.sh``` in the root dir where this repo will sit  
+    * If you are on a Linux Machine you will need additional steps to ensure this file is the right format
+    * ```sudo apt-get install dos2unix```
+    * ```dos2unix setup.sh``` 
 * If you have already cloned this repo, you must run setup.sh with root dir as sarcasm-detection
 
 # Data Shape and Form

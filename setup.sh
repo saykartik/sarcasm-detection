@@ -9,6 +9,6 @@ fi
 
 git clone https://github.com/google-research/bert.git bert_repo
 
-pip install emoji
-pip install scikit-learn
-pip install tensorflow_hub==0.7.0 --force-reinstall
+pip install emoji --user
+pip install scikit-learn --user
+pip install tensorflow_hub==0.7.0 -user --force-reinstall
