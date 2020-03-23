@@ -48,7 +48,8 @@ def standard_loader(data_type):
 def load_data(
         load_fn=standard_loader('twitter'),
         bert_pair_shape=True, split=None, context_extent='last',
-        emoji_totext=False
+        emoji_totext=False,
+        random_state=42
 ):
     """
     :param load_fn: a loader function which when executed  should return data frame with 'label',
@@ -89,5 +90,5 @@ def load_data(
     if split is None:
         return new_res
     else:
-        train, test = train_test_split(new_res, test_size=split, random_state=42)
+        train, test = train_test_split(new_res, test_size=split, random_state=random_state)
         return train, test
