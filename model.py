@@ -4,7 +4,6 @@ import sys
 if 'bert_repo' not in sys.path:
     sys.path += ['bert_repo']
 
-
 import datetime
 import os
 import tensorflow as tf
@@ -28,7 +27,8 @@ WARMUP_PROPORTION = 0.1
 # Model configs
 SAVE_CHECKPOINTS_STEPS = 1000
 SAVE_SUMMARY_STEPS = 500
-
+ADD_DENSE_LAYER = False
+DENSE_SIZE = 200
 cfg = {
     'model_ver': 'v1',
     'BERT_MODEL': 'uncased_L-12_H-768_A-12',
@@ -118,9 +118,18 @@ class SarcasmBertBasic:
 
         hidden_size = output_layer.shape[-1].value
 
+        l1_weights = tf.get_variable(
+            "l1_weights", [DENSE_SIZE, hidden_size],
+            initializer=tf.truncated_normal_initializer(stddev=0.02))
+
+        l1_bias = tf.get_variable(
+            "l1_bias", [DENSE_SIZE], initializer=tf.zeros_initializer())
+
+        prev_hidden_size = DENSE_SIZE if ADD_DENSE_LAYER else hidden_size
+
         # Create our own layer to tune for politeness data.
         output_weights = tf.get_variable(
-            "output_weights", [num_labels, hidden_size],
+            "output_weights", [num_labels, prev_hidden_size],
             initializer=tf.truncated_normal_initializer(stddev=0.02))
 
         output_bias = tf.get_variable(
@@ -128,8 +137,13 @@ class SarcasmBertBasic:
 
         with tf.variable_scope("loss"):
             # Dropout helps prevent overfitting
-            output_layer = tf.nn.dropout(output_layer, keep_prob=0.9)
+            if ADD_DENSE_LAYER:
+                output_layer = tf.nn.dropout(output_layer, keep_prob=0.6)
+                output_layer = tf.matmul(output_layer, l1_weights, transpose_b=True)
+                output_layer = tf.nn.bias_add(output_layer, l1_bias)
+                output_layer = tf.nn.relu(output_layer)
 
+            output_layer = tf.nn.dropout(output_layer, keep_prob=0.6)
             logits = tf.matmul(output_layer, output_weights, transpose_b=True)
             logits = tf.nn.bias_add(logits, output_bias)
             log_probs = tf.nn.log_softmax(logits, axis=-1)
